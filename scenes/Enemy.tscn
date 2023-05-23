@@ -1,0 +1,166 @@
+[gd_scene load_steps=32 format=2]
+
+[ext_resource path="res://res/borracha.tres" type="Texture" id=1]
+[ext_resource path="res://scripts/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://assets/puff.jpg" type="Texture" id=3]
+[ext_resource path="res://assets/puff0_10.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 1 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 1 )
+region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 1 )
+region = Rect2( 384, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 1 )
+region = Rect2( 448, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 1 )
+region = Rect2( 512, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 1 )
+region = Rect2( 576, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 1 )
+region = Rect2( 640, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 1 )
+region = Rect2( 704, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=17]
+animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 24, 22 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 26, 20.5 )
+
+[sub_resource type="Shader" id=18]
+code = "shader_type canvas_item;
+
+void fragment() {
+	vec4 c = texture(TEXTURE, UV);
+	
+	if (c.r <= 0.2 && c.g <= 0.2 && c.b <= 0.2) {
+		COLOR.a = 0.0;
+	}
+	else {
+		COLOR = c;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 18 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 3 )
+region = Rect2( 170, 0, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 3 )
+region = Rect2( 340, 0, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 170, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 3 )
+region = Rect2( 170, 170, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 3 )
+region = Rect2( 340, 170, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 340, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 3 )
+region = Rect2( 170, 340, 170, 170 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 3 )
+region = Rect2( 340, 340, 170, 170 )
+
+[sub_resource type="SpriteFrames" id=29]
+animations = [ {
+"frames": [ ExtResource( 4 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "default",
+"speed": 12.0
+} ]
+
+[node name="Enemy" type="KinematicBody2D"]
+collision_layer = 256
+collision_mask = 256
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 17 )
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 6 )
+shape = SubResource( 2 )
+
+[node name="Kill" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kill"]
+position = Vector2( 0, 6.5 )
+shape = SubResource( 4 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 32, 32 )
+collision_mask = 256
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+visible = false
+material = SubResource( 19 )
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 29 )
+
+[node name="DeathTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Kill" to="." method="_on_Kill_body_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
